@@ -100,20 +100,6 @@ var ErrorMessageTemplate = `
 {{ ansi "fgwhite"}}{{ ansi "bgred"}}{{.Blank}}{{ ansi ""}}
 `
 
-/*
-var BoxPromptTemplate = `
-{{ ansi "reverse"}}{{.Blank}}{{ ansi ""}}
-{{ ansi "reverse"}}{{.Title}}{{ ansi ""}}
-{{ ansi "reverse"}}{{.Blank}}{{ ansi ""}}
-{{ ansi "reverse"}}{{.Message}}{{ ansi ""}}
-{{ ansi "reverse"}}{{.Blank}}{{ ansi ""}}
-`
-
-var InformationTemplate = `
-{{ ansi "reverse"}}{{.}}{{ ansi ""}}
-`
-*/
-
 var BoxPromptTemplate = `
 {{ ansi "fgblack"}}{{ ansi "bgcyan"}}{{.Blank}}{{ ansi ""}}
 {{ ansi "fgblack"}}{{ ansi "bgcyan"}}{{.Title}}{{ ansi ""}}
@@ -125,6 +111,10 @@ var BoxPromptTemplate = `
 var InformationTemplate = `
 {{ ansi "fgblack"}}{{ ansi "bgcyan"}}{{.}}{{ ansi ""}}
 `
+var ResponseTemplate = `
+{{ ansi "fgwhite"}}{{ ansi "bgblack"}}{{.}}{{ ansi ""}}
+`
+
 var ErrorLineTemplate = `
 {{ ansi "fgwhite"}}{{ ansi "bgred"}}{{.}}{{ ansi ""}}
 `
@@ -178,6 +168,13 @@ func Information(message string) {
 	message = strings.Replace(message, "\t", " ", -1)
 	message = padStringRight(message, 100)
 	PrintAnsi(InformationTemplate, message)
+}
+
+func Response(message string) {
+	message = strings.Replace(message, "\n", " ", -1)
+	message = strings.Replace(message, "\t", " ", -1)
+	message = padStringRight(message, 100)
+	PrintAnsi(ResponseTemplate, message)
 }
 
 func ErrorLine(message string) {
