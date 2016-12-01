@@ -109,14 +109,19 @@ var BoxPromptTemplate = `
 `
 
 var InformationTemplate = `
-{{ ansi "fgblack"}}{{ ansi "bgcyan"}}{{.}}{{ ansi ""}}
+{{ ansi "fgcyan"}}✓{{ ansi ""}}{{.}}
 `
 var ResponseTemplate = `
-{{ ansi "fgwhite"}}{{ ansi "bgblack"}}{{.}}{{ ansi ""}}
+{{ ansi "fgwhite"}}▶{{ ansi ""}}{{.}}
 `
-
+var NoticeTemplate = `
+{{ ansi "fgmagenta"}}▶{{ ansi ""}}{{.}}
+`
+var DeltaTemplate = `
+{{ ansi "fgwhite"}}△{{ ansi ""}}{{.}}
+`
 var ErrorLineTemplate = `
-{{ ansi "fgwhite"}}{{ ansi "bgred"}}{{.}}{{ ansi ""}}
+{{ ansi "fgred"}}☠{{ ansi ""}}{{.}}
 `
 
 // Error Message
@@ -144,22 +149,22 @@ func BoxPromptString(title string, message string) string {
 }
 
 func PromptString(message string) string {
-	Information(message)
+	Notice(message)
 	return askForString()
 }
 
 func PromptPassword(message string) string {
-	Information(message)
+	Notice(message)
 	return askForPassword()
 }
 
 func PromptInt(message string, max int) int {
-	Information(message)
+	Notice(message)
 	return askForInt(max)
 }
 
 func PromptBool(message string) bool {
-	Information(message)
+	Notice(message)
 	return askForConfirmation()
 }
 
@@ -175,6 +180,20 @@ func Response(message string) {
 	message = strings.Replace(message, "\t", " ", -1)
 	message = padStringRight(message, 100)
 	PrintAnsi(ResponseTemplate, message)
+}
+
+func Notice(message string) {
+	message = strings.Replace(message, "\n", " ", -1)
+	message = strings.Replace(message, "\t", " ", -1)
+	message = padStringRight(message, 100)
+	PrintAnsi(NoticeTemplate, message)
+}
+
+func Delta(message string) {
+	message = strings.Replace(message, "\n", " ", -1)
+	message = strings.Replace(message, "\t", " ", -1)
+	message = padStringRight(message, 100)
+	PrintAnsi(DeltaTemplate, message)
 }
 
 func ErrorLine(message string) {
