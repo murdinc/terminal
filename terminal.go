@@ -267,7 +267,7 @@ func askForString() string {
 
 	var resp string
 
-	fmt.Print("> ")
+	fmt.Print("◀  ")
 
 	scanner := bufio.NewScanner(os.Stdin)
 
@@ -298,7 +298,7 @@ func askForPassword() string {
 
 	term := terminal.NewTerminal(os.Stdout, "")
 
-	bytePassword, err := term.ReadPassword("> ")
+	bytePassword, err := term.ReadPassword("◀  ")
 	if err != nil {
 		return ""
 	}
@@ -310,7 +310,7 @@ func askForPassword() string {
 
 func askForInt(max int) int {
 
-	fmt.Print("> ")
+	fmt.Print("◀  ")
 
 	var i int
 
@@ -332,7 +332,7 @@ func askForInt(max int) int {
 // From: https://gist.github.com/albrow/5882501
 func askForConfirmation() bool {
 
-	fmt.Print("> ")
+	fmt.Print("◀  ")
 	var response string
 	fmt.Scanln(&response)
 
@@ -343,7 +343,7 @@ func askForConfirmation() bool {
 	} else if containsString(nokayResponses, response) {
 		return false
 	} else {
-		Information("Please type 'yes' or 'no' and then press enter:")
+		Notice("Please type 'yes' or 'no' and then press enter:")
 		return askForConfirmation()
 	}
 }
