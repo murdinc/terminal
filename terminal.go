@@ -114,6 +114,9 @@ var InformationTemplate = `
 var ResponseTemplate = `
 {{ ansi "fgwhite"}}▶{{ ansi ""}}{{.}}
 `
+var PromptTemplate = `
+{{ ansi "fgwhite"}}◀{{ ansi ""}}{{.}}
+`
 var NoticeTemplate = `
 {{ ansi "fgmagenta"}}▶{{ ansi ""}}{{.}}
 `
@@ -180,6 +183,13 @@ func Response(message string) {
 	message = strings.Replace(message, "\t", " ", -1)
 	message = padStringRight(message, 100)
 	PrintAnsi(ResponseTemplate, message)
+}
+
+func Prompt(message string) {
+	message = strings.Replace(message, "\n", " ", -1)
+	message = strings.Replace(message, "\t", " ", -1)
+	message = padStringRight(message, 100)
+	PrintAnsi(PromptTemplate, message)
 }
 
 func Notice(message string) {
