@@ -127,6 +127,10 @@ var ErrorLineTemplate = `
 {{ ansi "fgred"}}☠{{ ansi ""}}{{.}}
 `
 
+var HRTemplate = `
+{{ ansi "fgcyan"}}{{.}}{{ ansi ""}}
+`
+
 // Error Message
 func ShowErrorMessage(title string, message string) {
 	boxMessage := prepMessage(title, message)
@@ -139,7 +143,7 @@ func BoxPromptBool(title string, message string) bool {
 	boxMessage := prepMessage(title, message)
 	PrintAnsi(BoxPromptTemplate, boxMessage)
 
-	return askForConfirmation()
+	return askForConfirmation(0)
 }
 
 // Input Prompt String
@@ -168,7 +172,7 @@ func PromptInt(message string, max int) int {
 
 func PromptBool(message string) bool {
 	Notice(message)
-	return askForConfirmation()
+	return askForConfirmation(0)
 }
 
 func Information(message string) {
@@ -211,6 +215,10 @@ func ErrorLine(message string) {
 	message = strings.Replace(message, "\t", " ", -1)
 	message = padStringRight(message, 100)
 	PrintAnsi(ErrorLineTemplate, message)
+}
+
+func HR() {
+	PrintAnsi(HRTemplate, "===========================================================================")
 }
 
 // formats and prints a title and message in a template block
@@ -340,7 +348,11 @@ func askForInt(max int) int {
 }
 
 // From: https://gist.github.com/albrow/5882501
-func askForConfirmation() bool {
+func askForConfirmation(count int) bool {
+
+	if count > 3 {
+		return false
+	}
 
 	fmt.Print("◀  ")
 	var response string
@@ -353,8 +365,9 @@ func askForConfirmation() bool {
 	} else if containsString(nokayResponses, response) {
 		return false
 	} else {
+		count++
 		Notice("Please type 'yes' or 'no' and then press enter:")
-		return askForConfirmation()
+		return askForConfirmation(count)
 	}
 }
 
